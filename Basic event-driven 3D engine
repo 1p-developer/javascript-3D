@@ -1,0 +1,77 @@
+var xr = 0;
+var yr = 0;
+var d = true;
+var f = true;
+var z = 50;
+var fx,fy,ly,lx = 0;
+var mdo = false;
+
+function setup() {
+  createCanvas(400, 400, WEBGL);
+}
+
+function mouseWheel(event) {
+	if (z > 1 || event.delta<0) {
+  	z -= event.delta/25;
+	}
+	else {
+		z = 2;
+	}
+	if (z < 199 || event.delta>0) {
+  	z -= event.delta/25;
+	}
+	else {
+		z = 200;
+	}
+}
+
+function mousePressed() {
+	mdo=true;
+}
+
+function mouseReleased() {
+	mdo=false;
+}
+
+function drawSubjects() {
+	//Your 3D stuff here!
+	box(100);
+}
+
+function align() {
+	rotateX(xr);
+	//comment out as necessary
+	rotateY(yr);
+	//or
+	rotateZ(yr);
+}
+
+function senseMouse() {
+	if (mdo) {
+		d=true;
+		if (f) {
+			fx=(-(mouseY-200)*0.01);
+			fy=((mouseX-200)*0.01);
+			f=false;
+		}
+		adjx=(-(mouseY-200)*0.01);
+		adjy=((mouseX-200)*0.01);
+		adjx-=fx;
+		adjy-=fy;
+		yr=ly+adjy;
+		xr=lx+adjx;
+	}
+	else if (d) {
+		lx=xr;
+		ly=yr;
+		d=false;
+		f=true;
+	}
+}
+
+function draw() {
+  background(220);
+	senseMouse();
+	align();
+	drawSubjects();
+}
