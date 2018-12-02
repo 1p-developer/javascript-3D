@@ -35,7 +35,7 @@ function mouseReleased() {
 
 function drawSubjects() {
 	//Your 3D stuff here!
-	box(100);
+	box(z*100);
 }
 
 function align() {
@@ -71,7 +71,7 @@ function senseMouse() {
 
 function draw() {
   background(220);
-	senseMouse();
-	align();
-	drawSubjects();
+  senseMouse();
+  align();
+  drawSubjects();
 }
