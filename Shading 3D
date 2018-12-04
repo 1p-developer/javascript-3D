@@ -1,0 +1,93 @@
+var xr = -0.5;
+var yr = 0;
+var d = true;
+var f = true;
+var z = 40;
+var fx,fy,ly,lx = 0;
+var mdo = false;
+
+function setup() {
+  createCanvas(600, 600, WEBGL);
+}
+
+function mouseWheel(event) {
+	if (z > 1 || event.delta<0) {
+  	z -= event.delta/25;
+	}
+	else {
+		z = 2;
+	}
+	if (z < 199 || event.delta>0) {
+  	z -= event.delta/25;
+	}
+	else {
+		z = 200;
+	}
+}
+
+function mousePressed() {
+	mdo=true;
+}
+
+function mouseReleased() {
+	mdo=false;
+}
+
+function light() {
+	pointLight(255, 255, 255, 0, 0, 300);
+}
+
+function drawSubjects() {
+	//use ambientMaterial() as you would use fill()
+	specularMaterial(250);
+	noStroke();
+	ambientMaterial(0,0,255);
+	box(z*10,z/10,z*10);
+	
+	ambientMaterial(0,255,0);
+	translate(0,-(z/10),0);
+	rotateX(HALF_PI);
+	plane(z*10);
+	
+	ambientMaterial(255,0,0);
+	box(z);
+}
+
+function align() {
+	rotateX(xr);
+	//delete as necessary
+	rotateY(yr);
+	//or
+	//rotateZ(yr);
+}
+
+function senseMouse() {
+	if (mdo) {
+		d=true;
+		if (f) {
+			fx=(-(mouseY-200)*0.01);
+			fy=((mouseX-200)*0.01);
+			f=false;
+		}
+		adjx=(-(mouseY-200)*0.01);
+		adjy=((mouseX-200)*0.01);
+		adjx-=fx;
+		adjy-=fy;
+		yr=ly+adjy;
+		xr=lx+adjx;
+	}
+	else if (d) {
+		lx=xr;
+		ly=yr;
+		d=false;
+		f=true;
+	}
+}
+
+function draw() {
+  background(0);
+	senseMouse();
+	light();
+	align();
+	drawSubjects();
+}
